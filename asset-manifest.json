@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/fonzmartinez/meet.git/static/css/main.073c9b0a.css",
+    "main.js": "/fonzmartinez/meet.git/static/js/main.2f20fcd5.js",
+    "static/js/787.4b564826.chunk.js": "/fonzmartinez/meet.git/static/js/787.4b564826.chunk.js",
+    "service-worker.js": "/fonzmartinez/meet.git/service-worker.js",
+    "static/media/logo.svg": "/fonzmartinez/meet.git/static/media/logo.103b5fa18196d5665a7e12318285c916.svg",
+    "index.html": "/fonzmartinez/meet.git/index.html",
+    "main.073c9b0a.css.map": "/fonzmartinez/meet.git/static/css/main.073c9b0a.css.map",
+    "main.2f20fcd5.js.map": "/fonzmartinez/meet.git/static/js/main.2f20fcd5.js.map",
+    "787.4b564826.chunk.js.map": "/fonzmartinez/meet.git/static/js/787.4b564826.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.2f20fcd5.js"
+  ]
+}
