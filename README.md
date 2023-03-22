@@ -15,3 +15,6 @@ Users shouuld be able to:
 
 TECHNICAL REQUIREMENTS
 App will be a React application built using the TDD technique.
+
+SERVERLESS FUNCTIONS
+The meet app will be using serverless functions for authorization. A consumer key and consumer secret will be cross-reference by the authorization server.  If matching, the server will send back a token to identify the user.
