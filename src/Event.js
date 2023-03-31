@@ -15,7 +15,6 @@ class Event extends Component {
 
     return (
       <div className="event">
-
         <h2 className="summary">{event.summary}</h2>
         <p className="event-start">
           {new Date(event.start.dateTime).toString()}
@@ -39,7 +38,6 @@ class Event extends Component {
         <button className="details-btn" onClick={() => this.toggleDetails()}>
           {collapsed ? "show" : "hide"} details
         </button>
-
       </div>
     )
   }
