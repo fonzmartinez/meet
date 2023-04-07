@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 
 
 
-describe('<Event /> componenent', () => {
+describe('<Event /> component', () => {
   let EventWrapper;
   const event = mockData[0];
   beforeAll(() => {

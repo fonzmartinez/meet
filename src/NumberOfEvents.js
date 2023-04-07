@@ -12,6 +12,7 @@ class NumberOfEvents extends Component {
     let inputValue = event.target.value;
     inputValue = Math.max(Number(minValue), Math.min(Number(maxValue), Number(inputValue)));
     this.setState({ number: inputValue });
+    this.props.updateEvents(this.props.selectedCity, inputValue);
   };
 
   render() {
@@ -30,4 +31,3 @@ class NumberOfEvents extends Component {
 
 
 export default NumberOfEvents;
-
