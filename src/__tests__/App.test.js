@@ -87,7 +87,7 @@ describe('<App /> integration', () => {
     AppWrapper.unmount();
   });
 
-  test("get list of events matching the number of events selected by the user", async () => {
+  test('List of events matches the number of events selected by the user', async () => {
     const AppWrapper = mount(<App />);
     const AppEventCountState = AppWrapper.state("eventCount");
     const NumberOfEventsWrapper = AppWrapper.find(NumberOfEvents);
