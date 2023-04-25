@@ -3,9 +3,13 @@ import "./App.css";
 import CitySearch from "./CitySearch";
 import EventList from "./EventList";
 import NumberOfEvents from "./NumberOfEvents";
+import EventGenre from "./EventGenre";
 import { WarningAlert } from "./Alert";
 import WelcomeScreen from "./WelcomeScreen";
 import { getEvents, extractLocations, checkToken, getAccessToken } from "./api";
+import {
+  ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+} from 'recharts';
 import "./nprogress.css";
 
 
@@ -17,6 +21,16 @@ class App extends Component {
     eventCount: 32,
     selectedCity: null,
     showWelcomeScreen: undefined
+  };
+
+  getData = () => {
+    const { locations, events } = this.state;
+    const data = locations.map((location) => {
+      const number = events.filter((event) => event.location === location).length
+      const city = location.split(', ').shift()
+      return { city, number };
+    })
+    return data;
   };
 
   updateEvents = (location, eventCount) => {
@@ -86,21 +100,6 @@ class App extends Component {
   }
 
 
-  /*
-  componentDidMount() {
-    this.mounted = true;
-    getEvents().then((events) => {
-      if (this.mounted) {
-        const NumEvents = events.slice(0, this.state.eventCount);
-        this.setState({
-          events: NumEvents,
-          locations: extractLocations(events),
-        });
-      }
-    });
-  }
-  */
-
   componentWillUnmount() {
     this.mounted = false;
   }
@@ -110,13 +109,12 @@ class App extends Component {
       className="App" />
     return (
       <div className="App">
-        {/* Other components such as CitySearch, EventList,...etc */}
-        <br></br>
+        <h1>Meet App</h1>
+        <h4>Choose your nearest city</h4>
         <CitySearch
           locations={this.state.locations}
           updateEvents={this.updateEvents}
         />
-        <br></br>
         <NumberOfEvents
           selectedCity={this.state.selectedCity}
           number={this.state.eventCount}
@@ -125,7 +123,30 @@ class App extends Component {
         {!navigator.onLine &&
           <WarningAlert text='You are currently offline and display has been loaded from cache and may not be up to date.' />
         }
-        <br></br>
+        <div className="data-vis-wrapper">
+          <EventGenre events={this.state.events} />
+          <ResponsiveContainer height={400} >
+            <ScatterChart
+              width={400}
+              height={400}
+              margin={{
+                top: 20, right: 20, bottom: 20, left: 20,
+              }}
+            >
+              <CartesianGrid />
+              <XAxis type="category" dataKey="city" name="city" />
+              <YAxis
+                allowDecimals={false}
+                type="number"
+                dataKey="number"
+                name="number of events"
+              />
+              <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+              <Scatter data={this.getData()} fill="#8884d8" />
+            </ScatterChart>
+          </ResponsiveContainer>
+        </div>
+
         <EventList events={this.state.events} />
         <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen}
           getAccessToken={() => { getAccessToken() }} />
@@ -136,120 +157,3 @@ class App extends Component {
 
 export default App;
 
-
-
-
-/*
-import React, { Component } from "react";
-import "./App.css";
-import CitySearch from "./CitySearch";
-import EventList from "./EventList";
-import NumberOfEvents from "./NumberOfEvents";
-import { WarningAlert } from "./Alert";
-import WelcomeScreen from "./WelcomeScreen";
-import { getEvents, extractLocations, checkToken, getAccessToken } from "./api";
-import "./nprogress.css";
-
-
-
-class App extends Component {
-  state = {
-    events: [],
-    locations: [],
-    eventCount: 32,
-    selectedCity: null,
-    showWelcomeScreen: undefined
-  };
-
-  updateEvents = (location, eventCount) => {
-    if (!eventCount) {
-      getEvents().then((events) => {
-        const locationEvents = (location === 'all') ?
-          events :
-          events.filter((event) => event.location === location);
-        const NumEvents = locationEvents.slice(0, this.state.eventCount);
-        this.setState({
-          events: NumEvents,
-          selectedCity: location,
-        });
-      });
-    }
-    else if (eventCount && !location) {
-      getEvents().then((events) => {
-        const locationEvents = events.filter((event) =>
-          this.state.locations.includes(event.location)
-        );
-        const NumEvents = locationEvents.slice(0, eventCount);
-        this.setState({
-          events: NumEvents,
-          eventCount: eventCount,
-        });
-      });
-    }
-    else if (this.state.selectedCity === "all") {
-      getEvents().then((events) => {
-        const locationEvents = events;
-        const NumEvents = locationEvents.slice(0, eventCount);
-        this.setState({
-          events: NumEvents,
-          eventCount: eventCount,
-        });
-      });
-    }
-    else {
-      getEvents().then((events) => {
-        const locationEvents = (this.state.locations === "all") ?
-          events :
-          events.filter((event) => this.state.selectedCity === event.location);
-        const NumEvents = locationEvents.slice(0, eventCount);
-        this.setState({
-          events: NumEvents,
-          eventCount: eventCount,
-        });
-      });
-    }
-  };
-
-  componentDidMount() {
-    this.mounted = true;
-    getEvents().then((events) => {
-      if (this.mounted) {
-        const NumEvents = events.slice(0, this.state.eventCount);
-        this.setState({
-          events: NumEvents,
-          locations: extractLocations(events),
-        });
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  render() {
-    return (
-      <div className='App'>
-        <br></br>
-        <CitySearch
-          locations={this.state.locations}
-          updateEvents={this.updateEvents}
-        />
-        <br></br>
-        <NumberOfEvents
-          selectedCity={this.state.selectedCity}
-          number={this.state.eventCount}
-          updateEvents={this.updateEvents}
-        />
-        {!navigator.onLine &&
-          <WarningAlert text='You are currently offline and display has been loaded from cache and may not be up to date.' />
-        }
-        <br></br>
-        <EventList events={this.state.events} />
-      </div>
-    );
-  }
-}
-
-export default App;
-*/
